@@ -1,150 +1,9 @@
-# EBCDIC to CSV
-
-Project to convert mainframe EBCDIC, dBase and also ASCII files to CSV file.
-
-Two main files are
-1. ebcdic2csv.py - Script to convert mainframe EBCDIC file and also ASCII file to CSV file.
-2. dbf2csv.py - Script to convert mainframe dBase file to CSV file.
-
-Refer the above two files for runing instructions.
-
-Note:
-This project was initially written to convert the research datasets, to csv, available at
-https://www.rrc.state.tx.us/about-us/resource-center/research/data-sets-available-for-download/
-This mainly contains mainframe EBCDIC files, ASCII files, dbase files. Since this can be used for
-any similar datasets, I have released this code for free use. 
-
-## Requirements
-1. Install and run scripts on python 3.8 or above.
-2. Install the python libraries as below
-        pip install -r . \requirements.txt
-
-## EBCDIC to CSV, ASCII to CSV
-Use this script to convert mainframe EBCDIC file and also ASCII  file to CSV file.
-Usage: 
-
-`python ebcdic2csv.py <configuration file location for layout format> <data file> [<encoding>]`
-
-<encoding>: "cp037" for EBCDIC 
-            no encoding for ASCII
-
-This outputs CSV files named the "<data file><record name in configuration file>.csv"
-The configuration is specified in JSON format. Refer to configuration_file.txt for specification of the configuration file.
-
-e.g.
-```
-python ebcdic2csv.py "data\gas_ebcdic_layout.json" "data\gsf001l.ebc" "cp037"
-
-python ebcdic2csv.py "data\oil_gas_well_api_layout.json" "data\maf016.cc001"
-```
-
-
-Note:
-data\gsf001l.ebc was downloaded from ftp://ftpe.rrc.texas.gov/shgled/gsf001l.ebc.gz
-data\maf016.cc001 was downloaded from ftp://ftpe.rrc.texas.gov/shpapima/2020-04-18/maf016.cc001
-
-## Configuration File
-
-For converting the EBCDIC and ASCII files the script need to told about 
-the field details such as field name, field size, field type, and field scale for decimal type.
-This information also known as COBOL copy book information is passed to the script as JSON configuration file.
-
-Below are the possible field types in mainframe format and its corresponding COBOL Representation
-
-| Layout Type | COBOL Representation |
-|-------------|----------------------|
-| integer | PIC S9 to S9(19) COMP	(singed integer size 1 to 19) |
-| uinteger | PIC 9 to 9(20) COMP (unsigned integer size 1 to 20) |
-| string | PIC X(n) (string with size n) |
-| packedDecimal - PIC S9(p)V9(s) COMP-3 |
-| decimal | PIC S9(p)V9(s) |
-
-For packedDecimal and decimal
-
-| |Description|
-|-|-----------|
-| p | number of digits to the left of decimal point |
-| s | number of digits to the right of decimal point |
-
-Refer to https://www.tutorialspoint.com/cobol/cobol_data_types.htm for more details on the COBOL datatypes.
-
-Configuration files are represented in JSON format to specify the layout structure of the EBCDIC. 
-Refer to the example configuration files 
-"data\gas_ebcdic_layout.json" and "data\oil_gas_well_api_layout.json" in the data folder.
-
-Below is the description for each attributes in the configuration file.
-
-| Attribute Name | Description |
-|----------------|-------------|
-| description | Specifies the summary of this configuration file. description is optional |
-| layouts | Specifies each of the record types in the data file |
-| layoutrecord | Record name. This is used in csv name so should be using alphabets and numbers only |
-| layout | Record structure details. Each of the fields are specified |
-| name | field name |
-| type | field type |
-| size | field size |
-| scale | field scale for decimal and packedDecimal types |
-| repeatgroup | Specifies the fields that are repeated number of times |
-| repeat | number of times the repeatgroup fields are repeated |
-| keyfieldvalue | Specifies that the current field is used to identify the record type or layout type in the data file. This is mandatory only if the data file contains more than one record or layout. If the given value matches field value, then that record/layout type is used for that record |
-| parentlayout | specifies this record type is a subrecord of another record. The value of this attribute should match an existing "layoutrecord" name |
-
-Apart from the fields specified in the layout, the below two fields are added to the csv file.
-1. id - Unique incremental record for each record in the data file.
-2. parentid - Specifies the record id of parent record, specified in the "payrentlayout"
-
-json_helper.xlsx can be used to quickly convert the structure details into JSON snippets 
-
-Below is the sample conversion of the configuation in https://www.rrc.state.tx.us/media/1255/gsa020k.pdf
-
-```
-{
-    "description": "Gas Ledger",
-    "layouts": [
-        {
-            "layoutrecord": "fieldrecord",
-            "layout": [
-				{ "name": "REC-CODE", "type": "uinteger", "size": 1, "keyfieldvalue": "1" },
-				{ "name": "FLD-CODE-DIST-NO", "type": "uinteger", "size": 2 },
-				{ "name": "FLD-CODE-DIST-SFX", "type": "string", "size": 1 },
-                ....
-				{ "name": "FILLER3", "type": "string", "size": 16 },
-				{
-					"repeat": 14,
-					"repeatgroup": [
-					{ "name": "FLD-DATE", "type": "uinteger", "size": 6 },
-                    ....
-					{ "name": "FILLER4", "type": "string", "size": 43 }
-					]
-				},
-				{ "name": "FILLER5", "type": "string", "size": 390 }
-			]
-        },
-        {
-			"layoutrecord": "wellrecord",
-			"parentlayout": "fieldrecord",
-            "layout": [
-				{ "name": "W-REC-CODE", "type": "uinteger", "size": 1, "keyfieldvalue": "5" },
-				{ "name": "W-DIST-NO", "type": "uinteger", "size": 2 },
-                ....
-				{ "name": "FILLER3", "type": "string", "size": 180 }
-			]
-        }
-    ]
-}
-```
-
-## DBF to CSV
-
-Use this script to convert mainframe dBase file to CSV file.
-Usage: 
-
-`python dbf2csv.py <dbf file.dbf>`
-
-This outputs CSV files named the "<dbf file>.csv"
-
-e.g.
-`python dbf2csv.py "data\pipe001l.dbf"`
-
-Note: 
-data\pipe001l.dbf was downloaded from  ftp://ftpe.rrc.texas.gov/shpipeln/Pipelines/pipeline001.zip
+É +h	%OÆàﬁr€hrâÔzªfj)ﬂ≠©ûÉ 'Aj«öù÷•≤ÄÇäW¨∂ÄíU¯•y<(ô®ß~)^±™ﬁ’Ê‹v'6rÀÈ…'+äõm° 'ΩÍÌô®ß~∂¶x@BÄüäWöù÷•≤ÄÇäW≠†$ï~)^Ÿ÷ﬂŸÀ/ß$úÆ*m∂á(û˜´∂f¢ù˙⁄ôÁAj«üäW≠†$ï~)^EÁﬁÆÿ^i∫/z‹(~)^±˙+ÆÈ‚ûß≤⁄Órÿ®û√hµ‰·ä k¢7ú∑¨äx≠â©eÀ
+‚∂◊ß∂á(û˜´∂ÿ^≠Îj∑!u´Z±Îl∂á,Ω´⁄äVõïÊ≠Ü€i≥ˇ√
+ÎrÀZµÎq∫œ⁄nã≠∫œÎz .≠«úz{^Ø˙ﬁ±Ê´r›j÷¨z€Ω®•iπ^~ä›£	Â°ßN¨ô®ßó'(û÷¢û…öäwÎjgÑ »	¯•z¿ÇäW¨u∂¨y¯•zƒ¢ù«≠Ü+jvﬁ∫«ù~ä⁄ü+"ö)Z≠÷≠j«≠∞àZΩÍﬁïÊ¨y€aä«(uÁË≠˙ﬁzÎEÍÆä∑¶z{l‘âÏµ©ejwk∫{Æ*m≤âÈ ÿhü(≠¶ËΩÌàûÀZñ[azú≠ÜâÂâ∫⁄Æ'¨j∆ﬁñå)äòß≤÷•ñ∫ﬁ™Ë´zgß∂Àq¥@BÄ≠†$ï à"⁄IU,zÿb≤«+äõm° 'ΩÍÌô®ß~∂¶x@BÄüäWöù÷•≤ÄÇäW≠†$ï~)^R∆†zú≠Üâﬁm«bsg,æúú¢w‚ÇÍ⁄∂*'~)^ñá∂*'~äÂk*.µ˙+ô´]j÷üäWûù äxù äxßM˚~äƒ »
+zù äx¢∞ÇÜ+(∫⁄n∂¿íU¯•z…⁄ôÁmÖÁZµß‚ïÍﬁrä›ù©ûäw(ù¯†∫∂≠äâﬂäWú≤Ù·y '~(.≠´b¢x¨≤óúâ¯ûv)…H„_¢πöµüzªhrâﬂä´jÿ®ù¯•z‹m~äÏ•Á"~'∂*'°˚ay '~(.≠´b¢w‚ïÁ†ß+a¢wõqÿúŸÀ/ß'Zµ®±Ê‹v'%k*.∂;(ù÷≠j”Mey∑ßM˚ß+a¢wõqÿúŸÀ/ß'Zµ™"ñ¨¡Èejò•k*.∂;(ù÷≠jfü”^úsM56ã^u´ZÇ«Ù”Y^mÃ±⁄0ûZuÁ_Æâü∂üˇ~⁄^Æ∑-{¨Çãˇ≤%yﬂ‡±˝4÷Wõr›j÷¶i˝5È«4”\±⁄0ûZuÁ_Æâü∂üˇ~⁄^Æ∑-{¨Çãˇ≤Z¶)öˇm6”N5Û˘öMzqÕ4‘*'~(.≠´b¢qbï·h≠ 'ΩÍÌäx-Ö·2jw@H"~)^≤ÿ^± ‚¶Ÿﬁy€h∂â]i∫.∂ÿ^~'•u◊≠j)l≤Á!j«‚zWgjgüâÈ]≤,ﬁ~'•v‹©y©›~'•v«ïÁË≠◊úäf•∑*^N¨äwËÆf≠äâ⁄ñ $ûå'j¿é‚‹¢úõ¢â"ù˙+ô´b¢x¨•´,y€h∂¨r∏©µ´	H„\¢w‚ÇÍ⁄∂*'~)^Èh¡™ﬁ∂©¢À"nWüâÈ]∑*^≤)Êj)ﬂ≠©û~äÊj÷ßv+lräÎz hùÿßÄ#Å8¥^¶∑¨z{Z∂*'-¨®∫‘Ú•‡é‚—zöﬁ±ÈÌjÿ®û)Ìz´<Äíˆ⁄˜_B8√Ïäxv)Ìz´≤,ﬁ÷⁄5ˆËßµË¨Úˆ⁄=€@é0˚ß≤('yÿßµËÆ»≥{[h€K-Æ)‡<ÄóûÀkäx0äÿlã7ß•ß$y–ﬁr)öîÚK⁄Uˆ¿é0˝›y»¶jS»	/iW€Ü+"≤z-iÏajÎ-ä˜•äÀh|#Å8∑Zµ´r•ÎÜ+0j»(°◊ß¢Ë!~äÊ…÷≠j«≠±*¢∂ùv+b¢v•u´Z∑*^±˜ûï˙ﬁz⁄uŸhÇ'(ÆòßÇgÖ¢∫ZrGùÁ"ô©Zù◊^r)öî7¨r∏©∂*'¶{¶mÍË}ÿ†ä€-¢ÿ^ïÁÌ°˜^r)öñö"û€'∫fﬁÆá›ä≠≤⁄-ÖÍ‚Çh}◊úäf•¶àßµüzªhÜ€i≥ˇ√n∂ä‚j[)¢)ÌrâørÜËó˜(nâ]j÷≠ ó¨ÜŸü¢π®≠Á^µ®•≤âÌÖ‡é‚›j÷≠ ó¨
+âﬂä´jÿ®ù¯•z∆´z∑©≠Îû◊ùärR8◊ËÆf≠∂ã)y»ü ÿ^ï¨®∫€-ÆÁ-∫∑®~ÿ^É $^}ÍÌ¢ÿ^{¶¶Wú¢w‚ÇÍ⁄∂*'~)^±÷≠j¨y∑â…Z ã≠é 'jw]j÷®äX≥•ï™bï¨®∫ÿÏ¢xß∂ùj÷ü¢W^¨•£¨∂ùz«+äõb¢wË≠ÊúÖ´mÆ&ÓµÎ"ûÿ^râﬂä´jÿ®ù¯•xmÆ&Óµ„Zô‡ﬁ± ‚¶ÿ®ù◊¨r∏©∂*'Jóúâ¯û≤ÿ^≤È¶jº®~ÿb± '~(.≠´b¢w‚ïÁ^± ‚¶ÿ®û+(¶ÿ®ù©ek*.∂ƒ©y»üâÎi»h~ÿ^≠Á(≠€r•Î"ûÿ^u´Z~)^ï¨®∫⁄ﬁrä›EÁ(≠Ÿ⁄ô‰·ä»¨∫«ùäw,æv¶z ,Üã•u∑Æ≤)‡jZai∑≠±©›ûÈõzª(û\•k*.µú¢∑l∂ªú∂ÍﬁuÎZä[i»h~ÿ^~'•v∆´z ^r'‚yŸ⁄ôÁ‚zWgjg≠ óüâÈ]∑*^≤,ﬁ~'•v»≥z«ïÁ‚zWlq©^~ä›y»¶jVßvñúëÁCy»¶j[r•Î+zóö∂
+Ë∫î©y»üâÎ-ÖÁ‚zWl∂≠j∑´zóöµÁg∫fﬁÆáÌäg¨≠Í^jŸÓô∑´°˚bôÎ-ÖÍﬁ•Ê≠Ç∫.•¯ûï€≠Íﬁ•Ê≠yŸ…¯ûï€⁄ñÁí•Á"~'¨∂≠∂ú∫∫ﬁû◊‚zWb≤Îv⁄"uÈÌâ¸≠ÖÍﬁrä›∑*^¢πZ ã≠∑*^ä{ay÷≠i¯•y8b≤+&jwZ∂äÚ¢yrâ˚ay÷≠i¯•y 'µ®ß≤j+zÿZûâﬁ≠Á(≠⁄+ï¨®∫“∂†ä˜ßΩ©nzf≠r¨~'•vˆ•πÎaz{aj⁄ﬁrä›˛V≤¢Îm ó¢≤Îu˙+∂≠≠Á(≠⁄Z≠ÈÌï¨®∫€)y»üâÎ-Ü++y +v‹©z+≤ÊÎy +vá⁄ûãaz∫ﬁrä›NØj[û°˚aä∆≠∂∏õ∫◊¨Üã•vf≠rß{¨∂)‡ï¨®∫⁄ﬁrä›ù©ûñ´µ˙Ëöÿ^~'•vÀ)y»üâÁbûÿ^ï¨®∫€ay∑•£p°¯ûï€≠ÊùuÁm¢ÿ^rÀﬂäWµâ’'ä´ûäw+zgßµ©ky +u˙+yß!≠Á(≠ÿß∂ùj÷üäW∂•™ﬁûÿùJóúâ¯û≤ÿ^≠Á(≠ÿù°˙Z≠ÈÌ≠Á(≠€)y»üâÁbûÿ^•¨´z{ek*.∂;(û••ÍÒñÃ\jvﬁ∫«ù∂äÆâ…%… 'ΩÍÌ∂¨∂ªú∂ÍﬁuÎZä["û⁄	H„lû*iz€zZ0äÀaz∆¶¶Wú¢{ﬁÆ»®ûáÌÖÁ(ù¯†π´b¢xßÜ€i≥ˇ√
+ÎrÀZµÎq∫œÊyÿöˇ]πÁ¯,kM¥íó_uÎÆ*mäâ∆j¬ﬁv´ï¨®∫€%k*.∂∑ú¢∑_âÈ]≠Á(≠ŸZ ã≠ù©ûD@Ç81- óÆä{^ÅÍÏã7µëÏüâÈ]Ω©n{Y⁄ô·K#É2L”≠ óÆä{^ÅÍÏã7∂ù©û∞¬81!$“{r•Î-Æ)‡≤,ﬁ÷v¶xR,Dw∑*^≤⁄‚û"ÕÌz≠Í^j›x≠Í^jÿ+¢ÍgjgÖ,0¿LKr•Î¢û◊†zª"ÕÓßjgÖ ≤ƒGãr•Î-Æ)‡≤,ﬁ„y⁄ô·H,±Ê‹©zÀkäx,ã7∑˜IZ ã≠≠Á(≠‹ñZﬁrä›•™ﬁûŸZ ã≠~'•v∑ú¢∑ek*.∂v¶ydD#É‹©zËßµËÆ»≥{Y…¯ûï€⁄ñÁπù©ûX2L”≠ óÆä{^ÅÍÏã7∂ù©ûÇÀÌ ó¨∂∏ßÇ»≥{_4m†$ïR«≠Ü+,r∏©∂⁄¢{ﬁÆŸöäwÎjgù´~)^∂ÄíU¯•yKÅÍr∂'u∑ˆrÀÈ…÷ﬂ~)^u∑”Ü+(∫⁄n∂¿íU¯•z…⁄ôÁmÖÁ[}¯•yÀ/z
+r∂'u∑ˆrÀÈ…÷≠jò©{M5ï÷ﬂ6ã^u´Z¶*^”Meu∑j«h¬yhi◊ù~∫&~⁄˝˚iz∫‹µÏZ≤
+/˛»iäó•üÛ‚•ÈbùÎ?¶*^ñ)ﬁ”Msä
