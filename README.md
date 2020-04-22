@@ -25,11 +25,14 @@ Usage:
 
 `python ebcdic2csv.py <configuration file location for layout format> <data file> [<encoding>]`
 
+```
 <encoding>: "cp037" for EBCDIC 
             no encoding for ASCII
+```
 
-This outputs CSV files named the "<data file><record name in configuration file>.csv"
-The configuration is specified in JSON format. Refer to configuration_file.txt for specification of the configuration file.
+
+This outputs CSV files named the `"<data file><record name in configuration file>.csv"`
+The configuration is specified in JSON format. Refer to `configuration_file.txt` for specification of the configuration file.
 
 e.g.
 ```
