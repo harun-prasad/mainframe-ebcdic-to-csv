@@ -51,6 +51,7 @@ This information also known as COBOL copy book information is passed to the scri
 
 Below are the possible field types in mainframe format and its corresponding COBOL Representation
 | Layout Type | COBOL Representation |
+|-------------|----------------------|
 | integer | PIC S9 to S9(19) COMP	(singed integer size 1 to 19) |
 | uinteger | PIC 9 to 9(20) COMP (unsigned integer size 1 to 20) |
 | string | PIC X(n) (string with size n) |
@@ -58,6 +59,8 @@ Below are the possible field types in mainframe format and its corresponding COB
 | decimal | PIC S9(p)V9(s) |
 
 For packedDecimal and decimal
+| |Description|
+|-|-----------|
 | p | number of digits to the left of decimal point |
 | s | number of digits to the right of decimal point |
 
@@ -70,6 +73,7 @@ Refer to the example configuration files
 Below is the description for each attributes in the configuration file.
 
 | Attribute Name | Description |
+|----------------|-------------|
 | description | Specifies the summary of this configuration file. description is optional |
 | layouts | Specifies each of the record types in the data file |
 | layoutrecord | Record name. This is used in csv name so should be using alphabets and numbers only |
