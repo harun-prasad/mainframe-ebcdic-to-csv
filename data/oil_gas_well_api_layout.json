@@ -1,0 +1,29 @@
+{
+    "description": "Statewide API Data - Oil and Gas Well API Record from https://www.rrc.state.tx.us/media/1237/wellmappingapioga096-9-2004.pdf",
+    "layouts": [
+        {
+            "layoutrecord": "OilGasWellAPIRecord",
+            "layout": [
+				{ "name": "MAF016-QUAD-NUM", "type": "uinteger", "size": 7 },
+				{ "name": "MAF016-API-NUM", "type": "uinteger", "size": 8 },
+				{ "name": "MAF016-SURVEY", "type": "string", "size": 55 },
+				{ "name": "MAF016-BLOCK", "type": "string", "size": 10 },
+				{ "name": "MAF016-SECTION", "type": "string", "size": 8 },
+				{ "name": "MAF016-ABSTRACT", "type": "string", "size": 6 },
+				{ "name": "MAF016-OPERATOR", "type": "string", "size": 32 },
+				{ "name": "MAF016-TOTAL-DEPTH", "type": "uinteger", "size": 5 },
+				{ "name": "MAF016-WELL-NUMBER", "type": "string", "size": 6 },
+				{ "name": "MAF016-LEASE-NAME", "type": "string", "size": 32 },
+				{ "name": "MAF016-PERMIT-NUM", "type": "uinteger", "size": 6 },
+				{ "name": "MAF016-GAS-RRCID", "type": "uinteger", "size": 6 },
+				{ "name": "MAF016-FIELD-NAME", "type": "string", "size": 32 },
+				{ "name": "MAF016-COMPLETION-DATE", "type": "uinteger", "size": 8 },
+				{ "name": "MAF016-PLUG-DATE", "type": "uinteger", "size": 8 },
+				{ "name": "MAF016-REFER-TO-API", "type": "uinteger", "size": 8 },
+				{ "name": "MAF016-ON-OFF-SCHEDULE", "type": "string", "size": 1 },
+				{ "name": "MAF016-OIL-GAS-CODE", "type": "string", "size": 1 },
+				{ "name": "FILLER", "type": "string", "size": 2 }
+			]
+        }
+    ]
+}
