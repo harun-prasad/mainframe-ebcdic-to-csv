@@ -1,0 +1,84 @@
+For converting the EBCDIC and ASCII files the script need to told about 
+the field details such as field name, field size, field type, and field scale for decimal type.
+This information also known as COBOL copy book information is passed to the script as JSON configuration file.
+
+Below are the possible field types in mainframe format and its corresponding COBOL Representation
+--------------------------------------------------------------------------------
+Layout Type - COBOL Representation
+--------------------------------------------------------------------------------
+integer     - PIC S9 to S9(19) COMP	(singed integer size 1 to 19)
+uinteger    - PIC 9 to 9(20) COMP (unsigned integer size 1 to 20)
+string      - PIC X(n) (string with size n)
+packedDecimal - PIC S9(p)V9(s) COMP-3
+decimal     - PIC S9(p)V9(s)
+--------------------------------------------------------------------------------
+For packedDecimal and decimal
+p - number of digits to the left of decimal point
+s - number of digits to the right of decimal point
+--------------------------------------------------------------------------------
+Refer to https://www.tutorialspoint.com/cobol/cobol_data_types.htm for more details on the COBOL datatypes.
+
+Configuration files are represented in JSON format to specify the layout structure of the EBCDIC. 
+Refer to the example configuration files 
+"data\gas_ebcdic_layout.json" and "data\oil_gas_well_api_layout.json" in the data folder.
+
+Below is the description for each attributes in the configuration file.
+---------------------------------------------------------------------------------------------------
+Attribute Name - Description
+---------------------------------------------------------------------------------------------------
+description - Specifies the summary of this configuration file. description is optional.
+layouts - Specifies each of the record types in the data file.
+layoutrecord - Record name. This is used in csv name so should be using alphabets and numbers only
+layout - Record structure details. Each of the fields are specified
+name - field name
+type - field type
+size - field size
+scale - field scale for decimal and packedDecimal types
+repeatgroup - Specifies the fields that are repeated number of times
+repeat - number of times the repeatgroup fields are repeated
+keyfieldvalue - Specifies that the current field is used to identify the record type or layout type in the data file. This is mandatory only if the data file contains more than one record or layout. If the given value matches field value, then that record/layout type is used for that record.
+parentlayout - specifies this record type is a subrecord of another record. The value of this attribute should match an existing "layoutrecord" name.
+---------------------------------------------------------------------------------------------------
+
+Apart from the fields specified in the layout, the below two fields are added to the csv file.
+1. id - Unique incremental record for each record in the data file.
+2. parentid - Specifies the record id of parent record, specified in the "payrentlayout"
+
+json_helper.xlsx can be used to quickly convert the structure details into JSON snippets 
+
+Below is the sample conversion of the configuation in https://www.rrc.state.tx.us/media/1255/gsa020k.pdf
+
+{
+    "description": "Gas Ledger",
+    "layouts": [
+        {
+            "layoutrecord": "fieldrecord",
+            "layout": [
+				{ "name": "REC-CODE", "type": "uinteger", "size": 1, "keyfieldvalue": "1" },
+				{ "name": "FLD-CODE-DIST-NO", "type": "uinteger", "size": 2 },
+				{ "name": "FLD-CODE-DIST-SFX", "type": "string", "size": 1 },
+                ....
+				{ "name": "FILLER3", "type": "string", "size": 16 },
+				{
+					"repeat": 14,
+					"repeatgroup": [
+					{ "name": "FLD-DATE", "type": "uinteger", "size": 6 },
+                    ....
+					{ "name": "FILLER4", "type": "string", "size": 43 }
+					]
+				},
+				{ "name": "FILLER5", "type": "string", "size": 390 }
+			]
+        },
+        {
+			"layoutrecord": "wellrecord",
+			"parentlayout": "fieldrecord",
+            "layout": [
+				{ "name": "W-REC-CODE", "type": "uinteger", "size": 1, "keyfieldvalue": "5" },
+				{ "name": "W-DIST-NO", "type": "uinteger", "size": 2 },
+                ....
+				{ "name": "FILLER3", "type": "string", "size": 180 }
+			]
+        }
+    ]
+}

@@ -128,7 +128,6 @@ Below is the sample conversion of the configuation in https://www.rrc.state.tx.u
 }
 ```
 
-
 ## DBF to CSV
 
 Use this script to convert mainframe dBase file to CSV file.
