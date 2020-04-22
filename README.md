@@ -50,6 +50,7 @@ the field details such as field name, field size, field type, and field scale fo
 This information also known as COBOL copy book information is passed to the script as JSON configuration file.
 
 Below are the possible field types in mainframe format and its corresponding COBOL Representation
+
 | Layout Type | COBOL Representation |
 |-------------|----------------------|
 | integer | PIC S9 to S9(19) COMP	(singed integer size 1 to 19) |
@@ -59,6 +60,7 @@ Below are the possible field types in mainframe format and its corresponding COB
 | decimal | PIC S9(p)V9(s) |
 
 For packedDecimal and decimal
+
 | |Description|
 |-|-----------|
 | p | number of digits to the left of decimal point |
