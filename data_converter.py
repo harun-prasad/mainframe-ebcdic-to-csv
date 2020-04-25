@@ -41,7 +41,7 @@ class DataConverter(object):
                     ("." + fieldString[size-scale:-1] if scale>0 else "") # e.g. '34.560'
             if not f1:
                 f1 = "0"
-            fieldString = ("+" if (fieldString[-1] == 'c') else "-") + f1    
+            fieldString = ("-" if (fieldString[-1] == 'd') else "") + f1 #0xd is <0, 0xf is unsigned, and 0xc >=0
             fieldString = str(eval(fieldString)) # e.g. '34.56'
             return fieldString
 
