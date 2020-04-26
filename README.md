@@ -59,8 +59,8 @@ Below are the possible field types in mainframe format and its corresponding COB
 | integer | PIC S9 to S9(19) COMP	(singed integer size 1 to 19) |
 | uinteger | PIC 9 to 9(20) COMP (unsigned integer size 1 to 20) |
 | string | PIC X(n) (string with size n) |
-| packedDecimal | PIC S9(p)V9(s) COMP-3 |
-| decimal | PIC S9(p)V9(s) |
+| packedDecimal | PIC S9(p)V9(s) COMP-3 (Signed) or PIC 9(p)V9(s) COMP-3 (Unsigned) |
+| decimal | PIC S9(p)V9(s) (Signed) or PIC 9(p)V9(s) (Unsigned) |
 
 This doesn't cover all COBOL datatypes, but was good enough for my datasets. For additional datatypes feel free to add logic or ping me.
 
