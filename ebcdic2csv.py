@@ -10,7 +10,7 @@ This outputs CSV files named the "<data file><record name in configuration file>
 The configuration is specified in JSON format. Refer to configuration_file.txt for specification of the configuration file.
 
 e.g.
-python ebcdic2csv.py "data\gas_ebcdic_layout.json" "data\gsf001l.ebc" "cp037"
+python ebcdic2csv.py "data\gas_ledger_ebcdic_layout.json" "data\gsf001l.ebc" "cp037"
 
 python ebcdic2csv.py "data\oil_gas_well_api_layout.json" "data\maf016.cc001"
 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
         if len(sys.argv) == 4:
             encoding = sys.argv[3]
     else:
-        layout_file = "data\gas_ebcdic_layout.json"
+        layout_file = "data\gas_ledger_ebcdic_layout.json"
         data_file = "data\gsf001l.ebc"
         encoding = "cp037" # for EBCDIC
         # layout_file = "data\oil_gas_well_api_layout.json"

@@ -36,7 +36,7 @@ The configuration is specified in JSON format. Refer to `configuration_file.txt`
 
 e.g.
 ```
-python ebcdic2csv.py "data\gas_ebcdic_layout.json" "data\gsf001l.ebc" "cp037"
+python ebcdic2csv.py "data\gas_ledger_ebcdic_layout.json" "data\gsf001l.ebc" "cp037"
 
 python ebcdic2csv.py "data\oil_gas_well_api_layout.json" "data\maf016.cc001"
 ```
@@ -75,7 +75,7 @@ Refer to https://www.tutorialspoint.com/cobol/cobol_data_types.htm for more deta
 
 Configuration files are represented in JSON format to specify the layout structure of the EBCDIC. 
 Refer to the example configuration files 
-"data\gas_ebcdic_layout.json" and "data\oil_gas_well_api_layout.json" in the data folder.
+"data\gas_ledger_ebcdic_layout.json", data\oil_ledger_ebcdic_layout.json and "data\oil_gas_well_api_layout.json" in the data folder.
 
 Below is the description for each attributes in the configuration file.
 
